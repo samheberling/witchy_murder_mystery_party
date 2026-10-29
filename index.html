@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ancestral Reckoning — Guest Cheat Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --dusk-ink:#1b1425;
+    --dusk-ink-2:#241b33;
+    --dusk-ink-3:#2e2240;
+    --parchment:#ede4d3;
+    --parchment-dim:#b9ad93;
+    --ember:#c1502e;
+    --ember-soft:#e07750;
+    --verdigris:#6f9673;
+    --verdigris-dim:#4c6650;
+    --old-gold:#b08d57;
+    --grey-wax:#5c5468;
+    --line: rgba(237,228,211,0.14);
+    --font-display:'Cormorant Garamond', Georgia, serif;
+    --font-body:'Lora', Georgia, serif;
+    --font-mono:'JetBrains Mono','Courier New',monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--dusk-ink);
+    color:var(--parchment);
+    font-family:var(--font-body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(176,141,87,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 0%, rgba(122,35,49,0.10), transparent 55%),
+      radial-gradient(ellipse 1000px 700px at 50% 100%, rgba(111,150,115,0.06), transparent 60%);
+    pointer-events:none;
+    z-index:0;
+  }
+  h1,h2,h3,h4{font-family:var(--font-display); font-weight:600; margin:0 0 .4em; letter-spacing:.01em;}
+  h1{font-size:clamp(2rem,5vw,3rem);}
+  h2{font-size:clamp(1.4rem,3vw,1.9rem); color:var(--parchment);}
+  h3{font-size:1.2rem; color:var(--old-gold); font-weight:600;}
+  p{margin:0 0 1em;}
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:.7rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--old-gold);
+    display:flex; align-items:center; gap:.6em;
+    margin-bottom:.6em;
+  }
+  .eyebrow::before{content:""; width:18px; height:1px; background:var(--old-gold); display:inline-block;}
+
+  .wrap{position:relative; z-index:1; max-width:920px; margin:0 auto; padding:2.4rem 1.2rem 5rem;}
+
+  header.top{text-align:center; margin-bottom:1.6rem;}
+  header.top .kicker{font-family:var(--font-mono); font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--parchment-dim);}
+  header.top h1{margin:.3em 0 .2em;}
+  header.top .sub{color:var(--parchment-dim); font-style:italic; max-width:46ch; margin:0 auto;}
+
+  nav.tabs{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:.5rem;
+    margin:1.8rem 0 2.2rem;
+    border-bottom:1px solid var(--line);
+    padding-bottom:1rem;
+  }
+  nav.tabs button{
+    all:unset; cursor:pointer;
+    font-family:var(--font-mono); font-size:.78rem; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--parchment-dim);
+    padding:.6em 1.1em;
+    border:1px solid var(--line);
+    border-radius:999px;
+  }
+  nav.tabs button:hover{color:var(--parchment); border-color:var(--old-gold);}
+  nav.tabs button.active{color:var(--dusk-ink); background:var(--old-gold); border-color:var(--old-gold); font-weight:600;}
+
+  .view{display:none; animation:fadeIn .4s ease;}
+  .view.active{display:block;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+
+  .card{
+    background:linear-gradient(180deg, var(--dusk-ink-3), var(--dusk-ink-2));
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:1.4rem 1.5rem;
+    margin-bottom:1.2rem;
+  }
+  .card p:last-child{margin-bottom:0;}
+
+  ul.plain{margin:0 0 1em; padding-left:1.3em;}
+  ul.plain li{margin-bottom:.55em;}
+  ul.plain li:last-child{margin-bottom:0;}
+
+  details.acc{
+    background:var(--dusk-ink-3);
+    border:1px solid var(--line);
+    border-radius:10px;
+    margin-bottom:.8rem;
+    padding:1rem 1.3rem;
+  }
+  details.acc summary{cursor:pointer; font-family:var(--font-display); font-size:1.1rem; color:var(--parchment); font-weight:600; list-style:none; display:flex; justify-content:space-between; align-items:center;}
+  details.acc summary::-webkit-details-marker{display:none;}
+  details.acc summary .plus{color:var(--old-gold); font-family:var(--font-mono);}
+  details.acc[open] summary .plus{transform:rotate(45deg); display:inline-block;}
+  details.acc .body{padding-top:.8rem;}
+
+  .cheat-box{
+    background:rgba(176,141,87,0.08);
+    border:1px solid rgba(176,141,87,0.3);
+    border-radius:10px;
+    padding:1.2rem 1.4rem;
+    margin-top:1.4rem;
+  }
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:1rem;}
+  .pcard{
+    background:var(--dusk-ink-3);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:1.1rem 1.2rem;
+  }
+  .pcard h3{margin-bottom:.1em;}
+  .pcard .player{display:block; font-style:italic; font-size:.9rem; color:var(--ember-soft); margin:0 0 .35em;}
+  .pcard .house{font-family:var(--font-mono); font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--verdigris); margin-bottom:.6em; display:block;}
+  .pcard p{margin:0; font-size:.94rem; color:var(--parchment);}
+  .pcard.deceased{border-color:rgba(176,141,87,0.35); background:linear-gradient(180deg, rgba(176,141,87,0.07), var(--dusk-ink-3));}
+  .pcard.deceased .house{color:var(--old-gold);}
+  .tag{
+    display:inline-block; font-family:var(--font-mono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--dusk-ink); background:var(--old-gold); border-radius:999px; padding:.15em .6em; margin-left:.5em; vertical-align:middle;
+  }
+  .tag.host{background:var(--verdigris); }
+
+  .section-label{font-family:var(--font-mono); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--parchment-dim); margin:2.2rem 0 .9rem; display:flex; align-items:center; gap:.7em;}
+  .section-label::after{content:""; flex:1; height:1px; background:var(--line);}
+
+  .web-layout{display:flex; gap:1.4rem; align-items:flex-start; margin-top:1rem; width:min(1280px, calc(100vw - 32px)); position:relative; left:50%; transform:translateX(-50%);}
+  @media (max-width:900px){.web-layout{flex-direction:column;}}
+  .web-wrap{flex:1 1 68%; min-width:0; width:100%; box-sizing:border-box; background:var(--dusk-ink-3); border:1px solid var(--line); border-radius:12px; padding:1rem;}
+  svg#web{display:block; width:100%; height:auto;}
+  .web-line{fill:none; stroke:var(--parchment-dim); stroke-opacity:.32; stroke-width:1.2; transition:stroke-opacity .25s ease, stroke-width .2s ease;}
+  .web-line.dead{stroke:var(--old-gold); stroke-opacity:.5; stroke-dasharray:4 3;}
+  .web-line.dim{stroke-opacity:.05;}
+  .web-line.on{stroke-opacity:.95; stroke-width:2.2;}
+  .web-node{cursor:pointer; transition:opacity .25s ease;}
+  .web-node:focus{outline:none;}
+  .web-node:focus-visible circle, .web-node:hover circle{stroke-width:2.6;}
+  .web-node circle{fill:var(--dusk-ink-2); stroke:var(--old-gold); stroke-width:1.4; transition:stroke-width .2s ease;}
+  .web-node.hub circle{fill:var(--ember); stroke:var(--ember-soft); stroke-width:2;}
+  .web-node.dead circle{fill:var(--dusk-ink-2); stroke:var(--grey-wax); stroke-dasharray:3 2;}
+  .web-node.sel circle{stroke-width:3.4;}
+  .web-node.dim{opacity:.22;}
+  .web-node text{font-family:var(--font-display); font-size:14px; fill:var(--parchment); text-anchor:middle; pointer-events:none;}
+  .web-node .sub{font-family:var(--font-mono); font-size:9px; fill:var(--parchment-dim);}
+  .web-node .player{font-family:var(--font-body); font-style:italic; font-size:11.5px; fill:var(--ember-soft);}
+  .web-node.hub .player{fill:var(--parchment);}
+  .web-panel .player{font-style:italic; color:var(--ember-soft); margin:-.2em 0 .4em;}
+  .web-legend{display:flex; gap:1.4rem; flex-wrap:wrap; margin-top:.8rem; font-family:var(--font-mono); font-size:.7rem; color:var(--parchment-dim);}
+  .web-legend span{display:inline-flex; align-items:center; gap:.45em;}
+  .web-legend i{display:inline-block; width:18px; height:0; border-top:2px solid var(--parchment-dim);}
+  .web-legend i.d{border-top:2px dashed var(--old-gold);}
+  .web-panel{flex:1 1 36%; min-width:260px; width:100%; box-sizing:border-box; border:1px solid var(--line); border-radius:12px; padding:1.1rem 1.2rem; background:rgba(237,228,211,0.03); max-height:680px; overflow-y:auto;}
+  .web-panel h3{font-family:var(--font-display); color:var(--old-gold); margin:0 0 .15em; font-size:1.3rem;}
+  .web-panel .house{font-family:var(--font-mono); font-size:.7rem; color:var(--parchment-dim); margin:0 0 1rem; letter-spacing:.04em;}
+  .web-panel .hint{color:var(--parchment-dim); font-size:.92rem; line-height:1.55; margin:0;}
+  .web-panel ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.75rem;}
+  .web-panel li{font-size:.9rem; color:var(--parchment-dim); line-height:1.5; border-left:2px solid var(--line); padding-left:.7rem;}
+  .web-panel li.dead{border-left-color:var(--old-gold);}
+  .web-panel li button{all:unset; cursor:pointer; color:var(--parchment); font-weight:600; font-family:var(--font-body);}
+  .web-panel li button:hover, .web-panel li button:focus-visible{color:var(--old-gold); text-decoration:underline;}
+  .web-panel .tie{display:block;}
+  .web-panel .clear{all:unset; cursor:pointer; font-family:var(--font-mono); font-size:.7rem; color:var(--parchment-dim); margin-top:1rem; display:inline-block;}
+  .web-panel .clear:hover{color:var(--parchment);}
+
+  footer.note{margin-top:3rem; text-align:center; color:var(--parchment-dim); font-size:.82rem; font-style:italic;}
+
+  @media print{
+    nav.tabs{display:none;}
+    .view{display:block !important;}
+    body{background:#fff; color:#1b1425;}
+    .card,.pcard,details.acc,.web-wrap{border-color:#ccc; background:#faf7f0;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="kicker">Ashgrove Coven · Halloween Night</div>
+    <h1>Ancestral Reckoning</h1>
+    <p class="sub">A guest reference for tonight — the world, the family, and who's who. Read it before the séance ritual begins.</p>
+  </header>
+
+  <nav class="tabs">
+    <button data-view="tonight" class="active">Tonight</button>
+    <button data-view="rules">Rules of the Realm</button>
+    <button data-view="whoswho">Who's Who</button>
+    <button data-view="web">The Family &amp; Coven Web</button>
+  </nav>
+
+  <!-- TONIGHT -->
+  <section class="view active" id="view-tonight">
+    <div class="eyebrow">Why we're gathering</div>
+    <h2>The Séance Ritual</h2>
+    <div class="card">
+      <p>The Ashgrove Coven gathers tonight for a <strong>multi-purpose</strong> séance:</p>
+      <ul class="plain">
+        <li><strong>The annual replenishment.</strong> Halloween is the year's largest night for restoring the coven's shared magical reserve, which is drawn down all year and refilled through communal ritual.</li>
+        <li><strong>A succession.</strong> <strong>Ottilie Thorne</strong>, the coven's longtime Seat-holder, is ready to step down. Tonight's séance ritual is expected to name whoever leads the coven next.</li>
+      </ul>
+      <p>The full communal-chalice séance opens the veil far enough to consult the coven's ancestors. It is only performed on nights when something this big is at stake. Most of the coven has never seen it done and doesn't know the procedure.</p>
+    </div>
+    <div class="cheat-box">
+      <h3>Before you arrive</h3>
+      <ul class="plain">
+        <li>You are a member (or guest) of the Ashgrove Coven, gathered at the coven's shared hall for the séance ritual.</li>
+        <li>Everyone here belongs to a <strong>House</strong> — a magical bloodline. Yours is noted on your character card.</li>
+        <li>You know the people in the <strong>Who's Who</strong> tab, and roughly how you relate to them.</li>
+        <li><strong>The Family &amp; Coven Web</strong> visually explains everyone's relation to each other.</li>
+        <li>Come ready to mingle. The night unfolds from there.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- RULES -->
+  <section class="view" id="view-rules">
+    <div class="eyebrow">The World</div>
+    <h2>Rules of the Witch World</h2>
+    <p style="color:var(--parchment-dim); max-width:60ch;">A fully magical world, separate from any human one. No humans exist here — every character is a magical being with very human motivations.</p>
+
+    <details class="acc" open>
+      <summary>Houses &amp; Bloodlines <span class="plus">+</span></summary>
+      <div class="body">
+        <p>Power belongs to <strong>Houses</strong> — bloodlines — not individuals. A House's standing is determined by the strength of its ancestral magic.</p>
+        <ul class="plain">
+          <li><strong>House Thorne</strong> — currently holds the Ashgrove Seat, under Ottilie.</li>
+          <li><strong>House Vane</strong> — an old House that once had a claim on the Ashgrove Seat. The House is presumed extinguished.</li>
+          <li><strong>House Faircloth</strong> — known for witnessing and truth-magic. Its heirs serve as the coven's Witness, whose word makes a succession official.</li>
+          <li><strong>House Ashby</strong> — known for experimenting with dark magic.</li>
+          <li><strong>House Bellweather</strong> — a modest House known for protective charms, herbal remedies, and assimilating new members.</li>
+          <li><strong>House Cross</strong> — a minor House known for curiosity and high intellect.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>Lifespans <span class="plus">+</span></summary>
+      <div class="body">
+        <ul class="plain">
+          <li>Witches and wizards don't age the way humans do. They often live to 600 years or more.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>How the Coven Works <span class="plus">+</span></summary>
+      <div class="body">
+        <ul class="plain">
+          <li><strong>The Seat anchors the coven.</strong> It's a physical and magical central connecting point that's held in trust with the ancestors, not owned outright.</li>
+          <li><strong>Multiple Houses, one coven.</strong> Each keeps its own bloodline identity and internal hierarchy, but all contribute to and draw from the shared magic reserve during joint rituals.</li>
+          <li><strong>Succession isn't strictly hereditary.</strong> When a Seat-holder steps down, the coven's spirits choose the next leader from any eligible member House. In practice, the outgoing Seat-holder presents a name and the spirits usually confirm it. A succession has three parts: the Seat-holder presents a name, the spirits confirm it, and the coven's Witness (held by House Faircloth) records it. Without the Witness's official sign-off, the succession is not confirmed.</li>
+          <li><strong>The priestess keeps the coven's rites.</strong> She prepares the séance rituals and tends the altar. She is often the first to sense when the ancestors are uneasy. She serves the Seat-holder and the ancestors but does not lead the coven. Percy Thorne holds it now.</li>
+          <li><strong>Coven law forbids open aggression between member Houses.</strong> Rivalry stays political like: swaying influence, performing séance rituals, alliances, and maintaining a good reputation.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>The Ministry of Magic (played by Sam and E) <span class="plus">+</span></summary>
+      <div class="body">
+        <p>The Ministry of Magic oversees every coven. It regulates how much a coven may draw from its shared reserve and requires certain records to be formally filed rather than just remembered by a family. Think of it like a city hall mixed with the police department. Its recognition is what makes a succession official beyond the coven itself. They can answer any questions you might have.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>Magic: The Give and Take <span class="plus">+</span></summary>
+      <div class="body">
+        <ul class="plain">
+          <li>Every casting draws from a magic reserve. Reserves refill only through ritual: séance rituals tied to the land, the moon, or ancestral energy.</li>
+          <li><strong>Halloween is the year's largest replenishment night.</strong></li>
+          <li>Overspending a reserve draws backlash on the caster.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>The Veil <span class="plus">+</span></summary>
+      <div class="body">
+        <ul class="plain">
+          <li>The Veil separates the living and the dead.</li>
+          <li>Major ritual nights, like Halloween, thin the Veil enough to feel the ancestors' spirits more strongly.</li>
+          <li>A séance ritual asks the ancestors for guidance. Forcing an ancestor's will with private magic is forbidden by coven law. It costs a huge amount of magic reserve and brings heavy backlash. The caster may feel tired, get cold hands, headaches and misfiring magic. Any family line the magic is aimed at can feel the same symptoms and have vivid dreams.</li>
+        </ul>
+      </div>
+    </details>
+
+    <div class="cheat-box">
+      <h3>Quick Cheat Sheet</h3>
+      <ul class="plain">
+        <li>No humans exist in this world. Every character is a magical being of some House.</li>
+        <li>Magic always has a cost — it draws from a reserve that must be ritually replenished.</li>
+        <li>Power is inherited through bloodline (House), not just individual talent.</li>
+        <li>Multiple Houses share a single coven and its Seat. Rivalry is political, not violent. Coven law forbids using dark magic against fellow member Houses.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- WHO'S WHO -->
+  <section class="view" id="view-whoswho">
+    <div class="eyebrow">Gathered tonight</div>
+    <h2>Who's Who</h2>
+
+    <div class="section-label">Living Characters</div>
+    <div class="grid">
+      <div class="pcard">
+        <h3>Ottilie Thorne</h3>
+        <span class="player">Played by Sam H.</span>
+        <span class="house">House Thorne · The Seat-holder</span>
+        <p>The coven's longtime leader who will be running tonight's séance ritual. She is ready at last to name the next successor, but before she does, there is something she needs to share with the coven.</p>
+      </div>
+      <div class="pcard">
+        <h3>Judith Thorne</h3>
+        <span class="player">Played by Natalia</span>
+        <span class="house">House Thorne</span>
+        <p>Ottilie's capable, watchful younger sister. Keeps the family and the evening running.</p>
+      </div>
+      <div class="pcard">
+        <h3>Edmund Thorne</h3>
+        <span class="player">Played by Josh</span>
+        <span class="house">House Thorne</span>
+        <p>Ottilie's older brother. Quieter and more anxious than his sisters.</p>
+      </div>
+      <div class="pcard">
+        <h3>Rowan Thorne</h3>
+        <span class="player">Played by Will</span>
+        <span class="house">House Thorne</span>
+        <p>Ottilie's son. Raised to believe she will make him her successor.</p>
+      </div>
+      <div class="pcard">
+        <h3>Percy Thorne</h3>
+        <span class="player">Played by Caroline</span>
+        <span class="house">House Thorne · The priestess</span>
+        <p>Ottilie's daughter and Rowan's younger sister. As the coven's priestess, she knows how to run and tend to the séance rituals. Trained by her grandmother Constance.</p>
+      </div>
+      <div class="pcard">
+        <h3>Callum Ashby</h3>
+        <span class="player">Played by Christian</span>
+        <span class="house">House Ashby</span>
+        <p>A coven member with a shady reputation. The Ministry has caught him misusing magic more than once.</p>
+      </div>
+      <div class="pcard">
+        <h3>Imogen Faircloth</h3>
+        <span class="player">Played by Maria</span>
+        <span class="house">House Faircloth</span>
+        <p>The coven's Witness for many years. Her record is what makes any succession official.</p>
+      </div>
+      <div class="pcard">
+        <h3>Hazel Bellweather</h3>
+        <span class="player">Played by Emily M.</span>
+        <span class="house">House Bellweather</span>
+        <p>A promising new initiate, invited into coven life for the first time tonight.</p>
+      </div>
+      <div class="pcard">
+        <h3>Nathaniel Cross</h3>
+        <span class="player">Played by Sam</span>
+        <span class="house">House Cross</span>
+        <p>A curious scholar researching how old the Ashgrove coven really is.</p>
+      </div>
+      <div class="pcard">
+        <h3>Agatha Thorne</h3>
+        <span class="player">Played by Paige</span>
+        <span class="house">House Thorne</span>
+        <p>The coven's registrar, its oldest member, and the coven's liaison to the Ministry of Magic. Her memory comes and goes so she writes everything down.</p>
+      </div>
+      <div class="pcard">
+        <h3>Jasper Bellweather</h3>
+        <span class="player">Played by John</span>
+        <span class="house">House Bellweather</span>
+        <p>An elder of House Bellweather, back after years away from coven life following a falling-out with the Thornes. He brought Hazel tonight.</p>
+      </div>
+    </div>
+
+    <div class="section-label">Deceased, but Not Forgotten</div>
+    <div class="grid">
+      <div class="pcard deceased">
+        <h3>Constance Thorne <span class="tag">Deceased</span></h3>
+        <span class="house">House Thorne · Seat-holder before Ottilie</span>
+        <p>Ottilie's formidable mother and the coven's Seat-holder for decades before her. She died within the last year.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEB -->
+  <section class="view" id="view-web">
+    <div class="eyebrow">How everyone connects</div>
+    <h2>The Family &amp; Coven Web</h2>
+    <p style="color:var(--parchment-dim); max-width:60ch;">Everything below is what the coven already knows, walking in tonight. Click any name to see who they're connected to and how. Dashed gold lines mark someone who has passed on.</p>
+
+    <div class="web-layout">
+      <div class="web-wrap">
+        <svg id="web" viewBox="15 35 690 645" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Family and coven connection web"></svg>
+        <div class="web-legend">
+          <span><i></i> ties among the living</span>
+          <span><i class="d"></i> ties to someone who has passed on</span>
+        </div>
+      </div>
+      <aside class="web-panel" id="web-panel" aria-live="polite"></aside>
+    </div>
+  </section>
+
+  <footer class="note">For guests only — keep this handy, but leave the rest of the night's secrets to the séance ritual itself.</footer>
+</div>
+
+<script>
+  // ---------- tabs ----------
+  document.querySelectorAll('nav.tabs button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('view-'+btn.dataset.view).classList.add('active');
+    });
+  });
+
+  // ---------- web data ----------
+  const nodes = [
+    {id:"ottilie", name:"Ottilie", sub:"Thorne · Seat-holder", hub:true},
+    {id:"judith", name:"Judith", sub:"Thorne"},
+    {id:"edmund", name:"Edmund", sub:"Thorne"},
+    {id:"rowan", name:"Rowan", sub:"Thorne"},
+    {id:"percy", name:"Percy", sub:"Thorne"},
+    {id:"callum", name:"Callum", sub:"Ashby"},
+    {id:"imogen", name:"Imogen", sub:"Faircloth"},
+    {id:"hazel", name:"Hazel", sub:"Bellweather"},
+    {id:"nathaniel", name:"Nathaniel", sub:"Cross"},
+    {id:"agatha", name:"Agatha", sub:"Thorne"},
+    {id:"jasper", name:"Jasper", sub:"Bellweather"},
+    {id:"constance", name:"Constance", sub:"Thorne, deceased", dead:true},
+  ];
+  const edges = [
+    {a:"ottilie", b:"judith", label:"Sisters"},
+    {a:"ottilie", b:"edmund", label:"Siblings"},
+    {a:"ottilie", b:"rowan", label:"Mother & son"},
+    {a:"ottilie", b:"percy", label:"Mother & daughter"},
+    {a:"rowan", b:"percy", label:"Siblings"},
+    {a:"ottilie", b:"nathaniel", label:"Researching the coven's history"},
+    {a:"ottilie", b:"imogen", label:"Her chosen Witness"},
+    {a:"ottilie", b:"hazel", label:"Invited guest"},
+    {a:"ottilie", b:"agatha", label:"Coven registrar"},
+    {a:"ottilie", b:"jasper", label:"Invited back"},
+    {a:"ottilie", b:"callum", label:"Coven member"},
+    {a:"jasper", b:"hazel", label:"Brought her tonight"},
+    {a:"ottilie", b:"constance", label:"Mother & daughter", dead:true},
+    {a:"judith", b:"constance", label:"Mother & daughter", dead:true},
+    {a:"edmund", b:"constance", label:"Mother & son", dead:true},
+  ];
+
+  const cx=360, cy=360, LIVING_R=240, DEAD_R=375;
+  const livingRing = nodes.filter(n=>!n.hub && !n.dead);
+  const deadRing = nodes.filter(n=>n.dead);
+  livingRing.forEach((n,i)=>{
+    const a = -Math.PI/2 + (i/livingRing.length)*Math.PI*2;
+    n.x = cx + LIVING_R*Math.cos(a); n.y = cy + LIVING_R*Math.sin(a);
+  });
+  // The two who have passed on sit on an outer ring, in the top corners.
+  deadRing.forEach((n,i)=>{
+    const a = (i===0 ? -3*Math.PI/4 : -Math.PI/4);
+    n.x = cx + DEAD_R*Math.cos(a); n.y = cy + DEAD_R*Math.sin(a);
+  });
+  const hub = nodes.find(n=>n.hub); hub.x=cx; hub.y=cy;
+  const byId = Object.fromEntries(nodes.map(n=>[n.id,n]));
+
+  const svg = document.getElementById('web');
+  const panel = document.getElementById('web-panel');
+  const NS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); return e; }
+
+  const lineEls = edges.map(ed=>{
+    const A = byId[ed.a], B = byId[ed.b];
+    const mx=(A.x+B.x)/2, my=(A.y+B.y)/2, dx=B.x-A.x, dy=B.y-A.y, len=Math.hypot(dx,dy)||1;
+    const bend = 0.1*len;
+    const qx = mx + (-dy/len)*bend, qy = my + (dx/len)*bend;
+    const line = el('path', {d:`M${A.x},${A.y} Q${qx},${qy} ${B.x},${B.y}`, class:'web-line'+(ed.dead?' dead':'')});
+    const t = el('title',{}); t.textContent = `${A.name} & ${B.name}: ${ed.label}`; line.appendChild(t);
+    svg.appendChild(line);
+    return {ed, line};
+  });
+
+  const webPlayers = {"ottilie": "Sam H.", "judith": "Natalia", "edmund": "Josh", "rowan": "Will", "percy": "Caroline", "callum": "Christian", "imogen": "Maria", "hazel": "Emily M.", "nathaniel": "Sam", "agatha": "Paige", "jasper": "John"};
+  const nodeEls = {};
+  nodes.forEach(n=>{
+    const g = el('g', {class:'web-node'+(n.hub?' hub':'')+(n.dead?' dead':''), transform:`translate(${n.x},${n.y})`, tabindex:'0', role:'button', 'aria-label':`${n.name}, show connections`});
+    const r = n.hub ? 50 : 41;
+    g.appendChild(el('circle', {r:r}));
+    const hasP = !!webPlayers[n.id];
+    const t = el('text', {y: hasP ? -2 : 4}); t.textContent = n.name; g.appendChild(t);
+    if(hasP){ const p = el('text', {class:'player', y:14}); p.textContent = webPlayers[n.id]; g.appendChild(p); }
+    const s = el('text', {class:'sub', y:r+13}); s.textContent = n.sub; g.appendChild(s);
+    g.addEventListener('click', ()=> select(selected===n.id ? null : n.id));
+    g.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); select(selected===n.id ? null : n.id); }});
+    svg.appendChild(g);
+    nodeEls[n.id]=g;
+  });
+
+  let selected = null;
+  function tiesFor(id){
+    const groups = new Map();
+    edges.forEach(ed=>{
+      if(ed.a!==id && ed.b!==id) return;
+      const other = ed.a===id ? ed.b : ed.a;
+      if(!groups.has(other)) groups.set(other, []);
+      groups.get(other).push(ed);
+    });
+    return groups;
+  }
+  function select(id){
+    selected = id;
+    const linked = id ? new Set(tiesFor(id).keys()) : null;
+    lineEls.forEach(({ed,line})=>{
+      const on = id && (ed.a===id || ed.b===id);
+      line.classList.toggle('on', !!on);
+      line.classList.toggle('dim', !!id && !on);
+    });
+    nodes.forEach(n=>{
+      const g=nodeEls[n.id];
+      g.classList.toggle('sel', n.id===id);
+      g.classList.toggle('dim', !!id && n.id!==id && !linked.has(n.id));
+    });
+    renderPanel();
+  }
+  function renderPanel(){
+    if(!selected){
+      panel.innerHTML = `<h3>Who connects to whom</h3><p class="hint">Click any name in the web (start with your own character) and this panel lists everyone they're tied to, and how. Their lines light up and everything else fades back. Click the name again, or a different one, to switch.</p>`;
+      return;
+    }
+    const n = byId[selected];
+    const groups = tiesFor(selected);
+    const order = nodes.map(x=>x.id).filter(x=>groups.has(x));
+    const items = order.map(oid=>{
+      const eds = groups.get(oid);
+      const o = byId[oid];
+      const ties = eds.map(e=>`<span class="tie">${e.label}</span>`).join('');
+      return `<li class="${o.dead?'dead':''}"><button data-go="${oid}">${o.name}${o.dead?' (deceased)':''}</button>${ties}</li>`;
+    }).join('');
+    panel.innerHTML = `<h3>${n.name}${n.dead?' (deceased)':''}</h3>${webPlayers[n.id]?`<p class="player">Played by ${webPlayers[n.id]}</p>`:''}<p class="house">${n.sub.toUpperCase()} &middot; ${groups.size} connection${groups.size===1?'':'s'}</p><ul>${items}</ul><button class="clear" data-go="">&larr; Show the whole web</button>`;
+    panel.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click', ()=>select(b.dataset.go||null)));
+    if(window.innerWidth < 900) panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+  renderPanel();
+</script>
+</body>
+</html>
